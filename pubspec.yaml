@@ -1,0 +1,31 @@
+name: lob_app
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.2.6 <4.0.0"
+
+dependencies:
+  firebase_auth: ^4.17.8
+  firebase_core: ^2.27.0
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.5.1
+  google_sign_in: ^6.2.1
+  riverpod_annotation: ^2.3.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  riverpod_generator: ^2.4.0
+  build_runner: ^2.4.9
+  custom_lint: ^0.6.4
+
+flutter:
+  uses-material-design: true
+  assets:
+    - lib/pics/google.png
+    - lib/pics/LOB_Logo.png
+  

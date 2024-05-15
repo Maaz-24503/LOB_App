@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "286786402274",
+    "project_id": "lobapp-bf259",
+    "storage_bucket": "lobapp-bf259.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286786402274:android:39e82ea6da3552c474abbb",
+        "android_client_info": {
+          "package_name": "com.example.lob_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJKeUMTkl2-iYhuy7k0z2nyB25lQbfE0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
