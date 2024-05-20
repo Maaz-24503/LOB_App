@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
+import 'package:lob_app/pages/user_home_page.dart';
 
 class Signup extends StatelessWidget {
   Signup({super.key});
@@ -25,6 +26,9 @@ class Signup extends StatelessWidget {
               ),
               duration: Duration(seconds: 2)),
         );
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const UserHomePage()),
+            (route) => false);
       } on FirebaseAuthException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -74,7 +78,7 @@ class Signup extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  "Login",
+                  "Sign-up",
                   style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w600,
@@ -96,7 +100,7 @@ class Signup extends StatelessWidget {
                 MyTextField(
                   hintText: 'Confirm Password',
                   hide: true,
-                  controller: passwordController,
+                  controller: confirmController,
                 ),
                 const SizedBox(
                   height: 25,

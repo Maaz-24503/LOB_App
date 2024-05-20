@@ -4,7 +4,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
+import 'package:lob_app/models/user.dart';
 import 'package:lob_app/pages/signup.dart';
+import 'package:lob_app/pages/user_home_page.dart';
+import 'package:lob_app/repositories/auth_repo.dart';
+import 'package:lob_app/services/auth_services.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -14,12 +18,12 @@ class LoginPage extends StatelessWidget {
 
   void loginPressed(context) async {
     try {
-      final UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
-      // Navigator.of(context).pushAndRemoveUntil(
-      //     MaterialPageRoute(builder: (context) => const HomePage()),
-      //     (route) => false);
+      final Users currUser = await AuthServices.login(
+          email: emailController.text, password: passwordController.text);
+      // print('got here ${user.firstName}');
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const UserHomePage()),
+          (route) => false);
     } on FirebaseAuthException catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -32,43 +36,10 @@ class LoginPage extends StatelessWidget {
     }
   }
 
-  void signUpPressed(context) async {
-    try {
-      final UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            backgroundColor: Colors.green,
-            content: Center(
-              child: Text('Account Succesfully created'),
-            ),
-            duration: Duration(seconds: 2)),
-      );
-    } on FirebaseAuthException catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            backgroundColor: Colors.red,
-            content: Center(
-              child: Text('Could not create User $error'),
-            ),
-            duration: const Duration(seconds: 4)),
-      );
-    }
-  }
-
   void googleLogin(context) async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      final Users currUser = await AuthServices.loginWithGoogle();
+      if (currUser.firstName == '') {}
       // Navigator.of(context).pushAndRemoveUntil(
       //     MaterialPageRoute(builder: (context) => const HomePage()),
       //     (route) => false);

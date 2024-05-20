@@ -7,7 +7,10 @@ class MyTextField extends StatelessWidget {
   final bool hide;
 
   const MyTextField(
-      {super.key, required this.controller, required this.hintText, required this.hide});
+      {super.key,
+      required this.controller,
+      required this.hintText,
+      required this.hide});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +18,9 @@ class MyTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
       child: TextField(
         obscureText: hide,
-        controller: controller, 
+        controller: controller,
         decoration: InputDecoration(
-          hintText: hintText, 
+          hintText: hintText,
           filled: true,
           fillColor: const Color.fromARGB(255, 255, 255, 255),
           enabledBorder: const OutlineInputBorder(

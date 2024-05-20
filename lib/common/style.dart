@@ -1,3 +1,1 @@
-class LOBStyle{
-  
-}
+class LOBStyle {}

@@ -16,7 +16,7 @@ class AuthButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal:25),
+        padding: const EdgeInsets.symmetric(horizontal: 25),
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
