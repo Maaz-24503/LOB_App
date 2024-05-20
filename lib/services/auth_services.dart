@@ -12,6 +12,6 @@ class AuthServices {
     return AuthRepo.getUserFromFireBase(email: email);
   }
   static Future<Users> loginWithGoogle() async{
-
+    return AuthRepo.firebaseGoogleLogin();
   }
 }

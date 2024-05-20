@@ -39,7 +39,9 @@ class LoginPage extends StatelessWidget {
   void googleLogin(context) async {
     try {
       final Users currUser = await AuthServices.loginWithGoogle();
-      if (currUser.firstName == '') {}
+      if (currUser.firstName == '') {
+        
+      }
       // Navigator.of(context).pushAndRemoveUntil(
       //     MaterialPageRoute(builder: (context) => const HomePage()),
       //     (route) => false);
