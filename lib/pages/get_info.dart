@@ -1,11 +1,79 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/components/auth_button.dart';
+import 'package:lob_app/components/text_field.dart';
+import 'package:lob_app/models/user.dart';
+import 'package:lob_app/pages/admin_home_page.dart';
+import 'package:lob_app/pages/user_home_page.dart';
+import 'package:lob_app/providers/user_provider.dart';
 
 class InfoPage extends StatelessWidget {
-  const InfoPage({super.key});
+  InfoPage({super.key});
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final UserService _userService = UserService();
+  void handlePressed(context) async {
+    if (firstNameController.text != "" && lastNameController.text != "") {
+      _userService.editName(
+          firstName: firstNameController.text,
+          lastName: lastNameController.text);
+      final Users currUser = await _userService.getUser();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => (currUser.role == Role.user)
+                  ? const UserHomePage()
+                  : const AdminHomePage()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            backgroundColor: Colors.red,
+            content: Center(
+              child: Text('Please enter info in fields'),
+            ),
+            duration: Duration(seconds: 2)),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return SafeArea(
+        child: Scaffold(
+      backgroundColor: LOBColors.backGround,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 25.0,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'lib/pics/LOB_Logo.png',
+                  height: 100,
+                  alignment: Alignment.center,
+                ),
+              ],
+            ),
+          ),
+          MyTextField(
+              controller: firstNameController,
+              hintText: "First-name",
+              hide: false),
+          MyTextField(
+              controller: lastNameController,
+              hintText: "Last-name",
+              hide: false),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: AuthButton(
+                text: "Confirm", onPressed: () => handlePressed(context)),
+          )
+        ],
+      ),
+    ));
   }
 }

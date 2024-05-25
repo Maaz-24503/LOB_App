@@ -5,22 +5,26 @@ import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
 import 'package:lob_app/models/user.dart';
+import 'package:lob_app/pages/get_info.dart';
 import 'package:lob_app/pages/signup.dart';
 import 'package:lob_app/pages/user_home_page.dart';
+import 'package:lob_app/providers/user_provider.dart';
 import 'package:lob_app/repositories/auth_repo.dart';
-import 'package:lob_app/services/auth_services.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  final _userService = UserService();
   void loginPressed(context) async {
     try {
-      final Users currUser = await AuthServices.login(
+      final Users currUser = await _userService.login(
           email: emailController.text, password: passwordController.text);
-      // print('got here ${user.firstName}');
+      if (currUser.firstName == '') {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => InfoPage()));
+      }
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const UserHomePage()),
           (route) => false);
@@ -38,9 +42,10 @@ class LoginPage extends StatelessWidget {
 
   void googleLogin(context) async {
     try {
-      final Users currUser = await AuthServices.loginWithGoogle();
+      final Users currUser = await UserService().loginWithGoogle();
       if (currUser.firstName == '') {
-        
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => InfoPage()));
       }
       // Navigator.of(context).pushAndRemoveUntil(
       //     MaterialPageRoute(builder: (context) => const HomePage()),
