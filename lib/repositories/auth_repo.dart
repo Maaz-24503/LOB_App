@@ -19,9 +19,10 @@ class AuthRepo {
   }
 
   Future<void> updateName({String? firstName, String? lastName}) async {
+    final email = FirebaseAuth.instance.currentUser!.email;
     final query = FirebaseFirestore.instance
         .collection('users')
-        .where('email', isEqualTo: 'maazkarim@email.com');
+        .where('email', isEqualTo: email);
     final querySnapshot = await query.get();
 
     if (querySnapshot.docs.isNotEmpty) {
@@ -60,12 +61,29 @@ class AuthRepo {
       idToken: googleAuth?.idToken,
     );
     await FirebaseAuth.instance.signInWithCredential(credential);
-    return getUserFromFireBase(email: googleUser?.email);
+    Users temp = await getUserFromFireBase(email: googleUser?.email);
+    if (temp.firstName == '') {
+      Map<String, String?> user = {
+        'email': FirebaseAuth.instance.currentUser!.email,
+        'firstName': '',
+        'lastName': '',
+        'role': 'user' // Convert enum to string
+      };
+      await FirebaseFirestore.instance.collection('users').add(user);
+    }
+    return temp;
   }
 
   Future<void> firebaseSignup({String? email, String? password}) async {
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email!, password: password!);
+    Map<String, String> user = {
+      'email': email,
+      'firstName': '',
+      'lastName': '',
+      'role': 'user' // Convert enum to string
+    };
+    await FirebaseFirestore.instance.collection('users').add(user);
   }
 
   Future<void> firebaseLogout() async {

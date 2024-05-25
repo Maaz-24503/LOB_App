@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
@@ -9,7 +8,6 @@ import 'package:lob_app/pages/get_info.dart';
 import 'package:lob_app/pages/signup.dart';
 import 'package:lob_app/pages/user_home_page.dart';
 import 'package:lob_app/providers/user_provider.dart';
-import 'package:lob_app/repositories/auth_repo.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -24,10 +22,11 @@ class LoginPage extends StatelessWidget {
       if (currUser.firstName == '') {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => InfoPage()));
+      } else {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => UserHomePage()),
+            (route) => false);
       }
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const UserHomePage()),
-          (route) => false);
     } on FirebaseAuthException catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -46,10 +45,11 @@ class LoginPage extends StatelessWidget {
       if (currUser.firstName == '') {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => InfoPage()));
+      } else {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => UserHomePage()),
+            (route) => false);
       }
-      // Navigator.of(context).pushAndRemoveUntil(
-      //     MaterialPageRoute(builder: (context) => const HomePage()),
-      //     (route) => false);
     } on FirebaseAuthException catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

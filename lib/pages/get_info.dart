@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/components/auth_button.dart';
@@ -14,16 +15,27 @@ class InfoPage extends StatelessWidget {
   final UserService _userService = UserService();
   void handlePressed(context) async {
     if (firstNameController.text != "" && lastNameController.text != "") {
-      _userService.editName(
-          firstName: firstNameController.text,
-          lastName: lastNameController.text);
-      final Users currUser = await _userService.getUser();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => (currUser.role == Role.user)
-                  ? const UserHomePage()
-                  : const AdminHomePage()));
+      try {
+        await _userService.editName(
+            firstName: firstNameController.text,
+            lastName: lastNameController.text);
+        final Users currUser = await _userService.getUser();
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => (currUser.role == Role.user)
+                    ? UserHomePage()
+                    : const AdminHomePage()),
+            (route) => false);
+      } on FirebaseAuthException catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              backgroundColor: Colors.red,
+              content: Center(
+                child: Text('Could not create User $error'),
+              ),
+              duration: const Duration(seconds: 4)),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

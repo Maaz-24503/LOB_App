@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
-import 'package:lob_app/pages/user_home_page.dart';
+import 'package:lob_app/pages/get_info.dart';
+import 'package:lob_app/providers/user_provider.dart';
 
 class Signup extends StatelessWidget {
   Signup({super.key});
@@ -11,24 +12,16 @@ class Signup extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmController = TextEditingController();
+  final UserService _userService = UserService();
 
   void signUpPressed(context) async {
     if (passwordController.text == confirmController.text) {
       try {
-        final UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailController.text, password: passwordController.text);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              backgroundColor: Colors.green,
-              content: Center(
-                child: Text('Account Succesfully created'),
-              ),
-              duration: Duration(seconds: 2)),
-        );
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const UserHomePage()),
-            (route) => false);
+        await _userService.signup(
+            email: emailController.text, password: passwordController.text);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => InfoPage()));
+
       } on FirebaseAuthException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

@@ -19,14 +19,14 @@ class DecisionPage extends ConsumerWidget {
           return LoginPage();
         } else {
           return value.role == Role.user
-              ? const UserHomePage()
+              ? UserHomePage()
               : const AdminHomePage();
         }
       },
       loading: () =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (err, stack) => const Scaffold(
-          body: Center(child: Text('Oops, something unexpected happened'))),
+      error: (err, stack) =>
+          Scaffold(body: Center(child: Text(err.toString()))),
     );
   }
 }

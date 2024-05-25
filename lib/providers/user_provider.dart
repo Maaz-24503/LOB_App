@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:lob_app/models/user.dart';
+import 'package:lob_app/pages/login.dart';
 import 'package:lob_app/repositories/auth_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -26,8 +28,10 @@ class UserService {
   }
 
   Future<Users> getUser() async {
-    String? email = FirebaseAuth.instance.currentUser!.email;
-
+    String? email = FirebaseAuth.instance.currentUser?.email;
+    if (email == null) {
+      return Users(email: "", firstName: "", lastName: "", role: Role.user);
+    }
     return _authRepo.getUserFromFireBase(email: email);
   }
 
@@ -36,14 +40,16 @@ class UserService {
   }
 
   Future<void> editName({String? firstName, String? lastName}) async {
-    await _authRepo.updateName();
+    await _authRepo.updateName(firstName: firstName, lastName: lastName);
   }
 
-  Future<void> singupWithFirebase({String? email, String? password}) async {
+  Future<void> signup({String? email, String? password}) async {
     await _authRepo.firebaseSignup(email: email, password: password);
   }
 
-  Future<void> logout() async {
+  Future<void> logout(context) async {
     await _authRepo.firebaseLogout();
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
   }
 }

@@ -1,59 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
-import 'package:lob_app/models/user.dart';
+import 'package:lob_app/pages/ranks_page.dart';
+import 'package:lob_app/pages/schedule_page.dart';
+import 'package:lob_app/pages/teams_page.dart';
 import 'package:lob_app/providers/user_provider.dart';
 
-class UserHomePage extends ConsumerStatefulWidget {
+class UserHomePage extends StatelessWidget {
   const UserHomePage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HomeState();
-}
-
-// Notice how instead of "State", we are extending "ConsumerState".
-// This uses the same principle as "ConsumerWidget" vs "StatelessWidget".
-class _HomeState extends ConsumerState<UserHomePage> {
-  final UserService _userService = UserService();
-  @override
-  void initState() {
-    super.initState();
-
-    // State life-cycles have access to "ref" too.
-    // This enables things such as adding a listener on a specific provider
-    // to show dialogs/snackbars.
-    ref.listenManual(userProvider, (previous, next) {
-      // TODO show a snackbar/dialog
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // "ref" is not passed as parameter anymore, but is instead a property of "ConsumerState".
-    // We can therefore keep using "ref.watch" inside "build".
-    final AsyncValue<Users> activity = ref.watch(userProvider);
-
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            "Home Page",
-            style: TextStyle(color: LOBColors.backGround),
+    final userService = UserService();
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text(
+              "Home Page",
+              style: TextStyle(color: LOBColors.backGround),
+            ),
+            backgroundColor: LOBColors.primary,
+            actions: [
+              IconButton(
+                  onPressed: () => userService.logout(context),
+                  icon: const Icon(
+                    Icons.logout_outlined,
+                    color: LOBColors.backGround,
+                  ))
+            ],
+            bottom: const TabBar(
+              labelStyle: TextStyle(color: LOBColors.backGround),
+              tabs: [
+                Tab(icon: Icon(Icons.group), text: "Teams"),
+                Tab(icon: Icon(Icons.arrow_upward_outlined), text: "Standings"),
+                Tab(icon: Icon(Icons.av_timer_rounded), text: 'Schedule')
+              ],
+            ),
           ),
-          backgroundColor: LOBColors.primary,
-          actions: [
-            IconButton(
-                onPressed: () => _userService.logout,
-                icon: const Icon(Icons.abc))
-          ],
-        ),
-        body: Center(
-          child: switch (activity) {
-            AsyncData(:final value) =>
-              Center(child: Text('Activity: ${value.firstName}')),
-            AsyncError() => const Text('Oops, something unexpected happened'),
-            _ => const CircularProgressIndicator(),
-          },
-        ));
+          body: TabBarView(
+            children: [
+              TeamsPage(),
+              RanksPage(),
+              SchedulePage()
+            ],
+          )),
+    );
   }
 }
