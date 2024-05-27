@@ -20,11 +20,11 @@ final teamsProvider = AutoDisposeFutureProvider<List<Team>>.internal(
 );
 
 typedef TeamsRef = AutoDisposeFutureProviderRef<List<Team>>;
-String _$rosterHash() => r'0089cbc5d6b922f1d7b17ceebef2aaedebcd1f77';
+String _$rosterHash() => r'6b5e508cfb07c9224be273309979047d62aba8bb';
 
 /// See also [roster].
 @ProviderFor(roster)
-final rosterProvider = AutoDisposeFutureProvider<Roster>.internal(
+final rosterProvider = AutoDisposeFutureProvider<List<Roster>>.internal(
   roster,
   name: r'rosterProvider',
   debugGetCreateSourceHash:
@@ -33,6 +33,6 @@ final rosterProvider = AutoDisposeFutureProvider<Roster>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef RosterRef = AutoDisposeFutureProviderRef<Roster>;
+typedef RosterRef = AutoDisposeFutureProviderRef<List<Roster>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

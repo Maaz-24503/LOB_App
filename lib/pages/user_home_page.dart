@@ -38,7 +38,7 @@ class UserHomePage extends StatelessWidget {
               ],
             ),
           ),
-          body: TabBarView(
+          body: const TabBarView(
             children: [
               TeamsPage(),
               RanksPage(),

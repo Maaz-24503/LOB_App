@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/firebase_options.dart';
 import 'package:lob_app/pages/decision_page.dart';
+import 'package:lob_app/pages/game_keeper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,8 +16,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: DecisionPage(),
+    return MaterialApp(
+      home: GameKeeperPage(),
       debugShowCheckedModeBanner: false,
     );
   }

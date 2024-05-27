@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lob_app/models/roster.dart';
 import 'package:lob_app/models/team.dart';
@@ -23,12 +21,13 @@ class TeamsRepo {
     return teams;
   }
 
-  Future<Roster> getRosterFromFirebase({String? teamName}) async {
+  Future<List<Roster>> getRosterFromFirebase() async {
     QuerySnapshot qs = await FirebaseFirestore.instance
         .collection('rosters')
-        .where('teamName', isEqualTo: teamName)
         .get();
-    Roster team = Roster.fromJson(qs.docs.first.data() as Map<String, dynamic>);
+    List<Roster> team = qs.docs
+        .map((doc) => Roster.fromJson(doc.data() as Map<String, dynamic>))
+        .toList();
     return team;
   }
 }

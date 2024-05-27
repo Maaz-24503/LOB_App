@@ -11,7 +11,7 @@ Future<List<Team>> teams(TeamsRef ref) {
 }
 
 @riverpod
-Future<Roster> roster(RosterRef ref) {
+Future<List<Roster>> roster(RosterRef ref) {
   return TeamService().getRoster();
 }
 
@@ -30,7 +30,7 @@ class TeamService {
     return await _teamsRepo.getTeamsFromFirebase();
   }
 
-  Future<Roster> getRoster({String? teamName}) async {
-    return await _teamsRepo.getRosterFromFirebase(teamName: teamName);
+  Future<List<Roster>> getRoster() async {
+    return await _teamsRepo.getRosterFromFirebase();
   }
 }
