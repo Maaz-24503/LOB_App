@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/models/user.dart';
-import 'package:lob_app/pages/admin_home_page.dart';
+import 'package:lob_app/pages/admin/admin_home_page.dart';
 import 'package:lob_app/pages/login.dart';
-import 'package:lob_app/pages/user_home_page.dart';
+import 'package:lob_app/pages/user/user_home_page.dart';
 import 'package:lob_app/providers/user_provider.dart';
 
 class DecisionPage extends ConsumerWidget {
@@ -19,7 +19,7 @@ class DecisionPage extends ConsumerWidget {
           return LoginPage();
         } else {
           return value.role == Role.user
-              ? UserHomePage()
+              ? const UserHomePage()
               : const AdminHomePage();
         }
       },

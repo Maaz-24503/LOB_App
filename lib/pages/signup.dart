@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
-import 'package:lob_app/pages/get_info.dart';
+import 'package:lob_app/pages/user/get_info.dart';
 import 'package:lob_app/providers/user_provider.dart';
 
 class Signup extends StatelessWidget {

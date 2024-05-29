@@ -28,7 +28,6 @@ class _HomeState extends ConsumerState<RosterPage> {
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<Roster>> activity = ref.watch(rosterProvider);
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

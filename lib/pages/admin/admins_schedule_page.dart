@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SchedulePage extends StatelessWidget {
-  const SchedulePage({super.key});
+class AdminsSchedulePage extends StatelessWidget {
+  const AdminsSchedulePage({super.key});
 
   @override
   Widget build(BuildContext context) {

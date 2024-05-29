@@ -17,7 +17,7 @@ class TeamsPage extends ConsumerWidget {
           crossAxisCount: 2,
         ),
         itemCount: prov.when(
-            data: (value) => 10,
+            data: (value) => value.length,
             error: (err, stack) => 0,
             loading: () => 0), // Number of items in the grid
         itemBuilder: (BuildContext context, int index) {

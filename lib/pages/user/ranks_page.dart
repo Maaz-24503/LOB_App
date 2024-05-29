@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/models/standings.dart';
-import 'package:lob_app/pages/seasons_page.dart';
+import 'package:lob_app/pages/user/seasons_page.dart';
 import 'package:lob_app/providers/standings_provider.dart';
 
 class RanksPage extends ConsumerWidget {

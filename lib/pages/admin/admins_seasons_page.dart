@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/models/standings.dart';
-import 'package:lob_app/pages/season_details_page.dart';
+import 'package:lob_app/pages/admin/admin_season_details.dart';
 
-class SeasonsPage extends StatelessWidget {
+class AdminsSeasonsPage extends StatelessWidget {
   final Season seasons;
-  const SeasonsPage({super.key, required this.seasons});
+  const AdminsSeasonsPage({super.key, required this.seasons});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class SeasonsPage extends StatelessWidget {
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
             decoration: BoxDecoration(
-              color: LOBColors.backGround,
+              color: LOBColors.secondaryBackGround,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -31,7 +31,7 @@ class SeasonsPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SeasonDetailsPage(
+                      builder: (context) => AdminSeasonDetailsPage(
                         teams: seasons.seasons[index].teamStandings,
                         season: index + 1,
                       ),
@@ -43,7 +43,7 @@ class SeasonsPage extends StatelessWidget {
                 ),
                 tileColor: LOBColors.backGround,
                 leading: CircleAvatar(
-                  backgroundColor: LOBColors.primary,
+                  backgroundColor: LOBColors.secondary,
                   child: Text(
                     '${index + 1}',
                     style: const TextStyle(
