@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/components/admin/new_team_form.dart';
 
 class AdminAddTeam extends StatelessWidget {
   const AdminAddTeam({
@@ -24,12 +25,14 @@ class AdminAddTeam extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: InkWell(
             onTap: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => RosterPage(
-              //               team: team,
-              //             )));
+              showModalBottomSheet(
+                backgroundColor: LOBColors.secondaryBackGround,
+                isScrollControlled: true,
+                context: context,
+                builder: (context) {
+                  return NewTeamForm();
+                },
+              );
             },
             child: const Center(
               child: Icon(

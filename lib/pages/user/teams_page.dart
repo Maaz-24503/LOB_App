@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lob_app/components/team_card.dart';
+import 'package:lob_app/components/user/team_card.dart';
 import 'package:lob_app/models/team.dart';
 import 'package:lob_app/providers/teams_provider.dart';
 

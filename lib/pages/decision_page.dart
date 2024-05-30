@@ -15,6 +15,7 @@ class DecisionPage extends ConsumerWidget {
 
     return activity.when(
       data: (value) {
+        // print(value.firstName + value.role.toString());
         if (value.firstName == "") {
           return LoginPage();
         } else {

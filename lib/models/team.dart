@@ -1,4 +1,6 @@
-class Team {
+import 'package:flutter/material.dart';
+
+class Team{
   final String name;
   final String? namedLogo;
   final String? namelessLogo;

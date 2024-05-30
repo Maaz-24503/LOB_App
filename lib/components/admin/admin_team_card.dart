@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/components/admin/delete_team_sheet.dart';
 import 'package:lob_app/models/team.dart';
+import 'package:lob_app/pages/admin/admin_roster_page.dart';
 
 class AdminTeamCard extends StatelessWidget {
   final Team team;
@@ -24,13 +26,26 @@ class AdminTeamCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: InkWell(
+            onLongPress: () {
+              showModalBottomSheet(
+                backgroundColor: LOBColors.secondaryBackGround,
+                isScrollControlled: true,
+                context: context,
+                builder: (context) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DeleteTeamSheet(team: team),
+                  );
+                },
+              );
+            },
             onTap: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => RosterPage(
-              //               team: team,
-              //             )));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AdminRosterPage(
+                            team: team,
+                          )));
             },
             child: Hero(
               tag: team.namedLogo!,

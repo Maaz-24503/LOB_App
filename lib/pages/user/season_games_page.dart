@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
-import 'package:lob_app/components/game_card.dart';
+import 'package:lob_app/components/user/game_card.dart';
 import 'package:lob_app/models/schedule.dart';
 import 'package:lob_app/models/team.dart';
 import 'package:lob_app/providers/teams_provider.dart';

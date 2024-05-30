@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/models/standings.dart';
 import 'package:lob_app/pages/admin/admins_seasons_page.dart';
 import 'package:lob_app/providers/standings_provider.dart';
@@ -16,7 +17,11 @@ class AdminsRanksPage extends ConsumerWidget {
           data: (value) => AdminsSeasonsPage(
             seasons: value,
           ),
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(
+            child: CircularProgressIndicator(
+              color: LOBColors.secondary,
+            ),
+          ),
           error: (err, stack) => Center(child: Text(err.toString())),
         ),
       ),

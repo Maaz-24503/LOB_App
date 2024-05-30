@@ -23,7 +23,7 @@ class InfoPage extends StatelessWidget {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
                 builder: (context) => (currUser.role == Role.user)
-                    ? UserHomePage()
+                    ? const UserHomePage()
                     : const AdminHomePage()),
             (route) => false);
       } on FirebaseAuthException catch (error) {

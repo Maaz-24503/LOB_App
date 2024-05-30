@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
-import 'package:lob_app/pages/user/game_keeper.dart';
+import 'package:lob_app/pages/game_keeper.dart';
 import 'package:lob_app/providers/user_provider.dart';
 
 class MyDrawer extends StatelessWidget {

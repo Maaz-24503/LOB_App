@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lob_app/components/season_tiles.dart';
+import 'package:lob_app/components/user/season_tiles.dart';
 import 'package:lob_app/models/schedule.dart';
 import 'package:lob_app/providers/schedule_provider.dart';
 

@@ -6,12 +6,13 @@ part of 'teams_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$teamsHash() => r'e63c832eeb5722a546a83b5079f3853f09715156';
+String _$teamsHash() => r'2001de3826122fceddf6a091efef0081f8bced1c';
 
-/// See also [teams].
-@ProviderFor(teams)
-final teamsProvider = AutoDisposeFutureProvider<List<Team>>.internal(
-  teams,
+/// See also [Teams].
+@ProviderFor(Teams)
+final teamsProvider =
+    AutoDisposeAsyncNotifierProvider<Teams, List<Team>>.internal(
+  Teams.new,
   name: r'teamsProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$teamsHash,
@@ -19,20 +20,21 @@ final teamsProvider = AutoDisposeFutureProvider<List<Team>>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef TeamsRef = AutoDisposeFutureProviderRef<List<Team>>;
-String _$rosterHash() => r'6b5e508cfb07c9224be273309979047d62aba8bb';
+typedef _$Teams = AutoDisposeAsyncNotifier<List<Team>>;
+String _$rostersHash() => r'73e90044cd61dd852da106cbd3c662ad66d5f5ae';
 
-/// See also [roster].
-@ProviderFor(roster)
-final rosterProvider = AutoDisposeFutureProvider<List<Roster>>.internal(
-  roster,
-  name: r'rosterProvider',
+/// See also [Rosters].
+@ProviderFor(Rosters)
+final rostersProvider =
+    AutoDisposeAsyncNotifierProvider<Rosters, List<Roster>>.internal(
+  Rosters.new,
+  name: r'rostersProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$rosterHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$rostersHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef RosterRef = AutoDisposeFutureProviderRef<List<Roster>>;
+typedef _$Rosters = AutoDisposeAsyncNotifier<List<Roster>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

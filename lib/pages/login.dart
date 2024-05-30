@@ -4,6 +4,7 @@ import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
 import 'package:lob_app/models/user.dart';
+import 'package:lob_app/pages/decision_page.dart';
 import 'package:lob_app/pages/user/get_info.dart';
 import 'package:lob_app/pages/signup.dart';
 import 'package:lob_app/pages/user/user_home_page.dart';
@@ -24,7 +25,7 @@ class LoginPage extends StatelessWidget {
             context, MaterialPageRoute(builder: (context) => InfoPage()));
       } else {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => UserHomePage()),
+            MaterialPageRoute(builder: (context) => const DecisionPage()),
             (route) => false);
       }
     } on FirebaseAuthException catch (error) {
@@ -47,7 +48,7 @@ class LoginPage extends StatelessWidget {
             context, MaterialPageRoute(builder: (context) => InfoPage()));
       } else {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => UserHomePage()),
+            MaterialPageRoute(builder: (context) => const UserHomePage()),
             (route) => false);
       }
     } on FirebaseAuthException catch (error) {

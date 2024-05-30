@@ -2,27 +2,26 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
-import 'package:lob_app/components/user/player_card.dart';
+import 'package:lob_app/components/admin/admin_add_player.dart';
+import 'package:lob_app/components/admin/admin_player_card.dart';
 import 'package:lob_app/models/roster.dart';
 import 'package:lob_app/models/team.dart';
 import 'package:lob_app/providers/teams_provider.dart';
 
-class RosterPage extends ConsumerStatefulWidget {
+class AdminRosterPage extends ConsumerStatefulWidget {
   final Team team;
 
-  const RosterPage({super.key, required this.team});
+  const AdminRosterPage({super.key, required this.team});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _HomeState();
 }
 
-class _HomeState extends ConsumerState<RosterPage> {
+class _HomeState extends ConsumerState<AdminRosterPage> {
   @override
   void initState() {
     super.initState();
-    ref.listenManual(rostersProvider, (previous, next) {
-      // TODO show a snackbar/dialog
-    });
+    ref.listenManual(rostersProvider, (previous, next) {});
   }
 
   @override
@@ -32,11 +31,11 @@ class _HomeState extends ConsumerState<RosterPage> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          foregroundColor: LOBColors.backGround,
+          foregroundColor: LOBColors.secondaryBackGround,
           title: Text(
             widget.team.name,
           ),
-          backgroundColor: LOBColors.primary,
+          backgroundColor: LOBColors.secondary,
         ),
         body: Stack(
           children: [
@@ -54,7 +53,7 @@ class _HomeState extends ConsumerState<RosterPage> {
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
                       ),
-                      color: LOBColors.backGround,
+                      color: LOBColors.secondaryBackGround,
                     ),
                     child: activity.when(
                       data: (value) {
@@ -68,15 +67,21 @@ class _HomeState extends ConsumerState<RosterPage> {
                         }
                         return ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: roster.players.length,
+                          itemCount: roster.players.length + 1,
                           itemBuilder: (context, index) {
-                            final player = roster.players[index];
-                            return PlayerCard(player: player);
+                            if (index < roster.players.length) {
+                              final player = roster.players[index];
+                              return AdminPlayerCard(player: player, team: roster.teamName,);
+                            } else {
+                              return AdminAddPlayer(team: widget.team,);
+                            }
                           },
                         );
                       },
-                      loading: () =>
-                          const Center(child: CircularProgressIndicator()),
+                      loading: () => const Center(
+                          child: CircularProgressIndicator(
+                        color: LOBColors.secondary,
+                      )),
                       error: (err, stack) =>
                           Center(child: Text(err.toString())),
                     ),
