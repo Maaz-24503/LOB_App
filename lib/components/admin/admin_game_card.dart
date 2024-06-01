@@ -45,7 +45,7 @@ class AdminGameCard extends ConsumerWidget {
             builder: (context) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: DeleteGameSheet(game:game, season: season),
+                child: DeleteGameSheet(game: game, season: season),
               );
             },
           );
@@ -101,7 +101,8 @@ class AdminGameCard extends ConsumerWidget {
                           children: [
                             CircleAvatar(
                                 radius: 30,
-                                backgroundColor: const Color.fromARGB(0, 231, 232, 255),
+                                backgroundColor:
+                                    const Color.fromARGB(0, 231, 232, 255),
                                 child: Hero(
                                   tag: "${game.team1}, ${game.time}",
                                   child: prov.when(
@@ -130,7 +131,8 @@ class AdminGameCard extends ConsumerWidget {
                           children: [
                             CircleAvatar(
                                 radius: 30,
-                                backgroundColor: const Color.fromARGB(0, 231, 232, 255),
+                                backgroundColor:
+                                    const Color.fromARGB(0, 231, 232, 255),
                                 child: Hero(
                                   tag: "${game.team2}, ${game.time}",
                                   child: prov.when(
@@ -165,7 +167,7 @@ class AdminGameCard extends ConsumerWidget {
                             child: Text(
                               '${game.team1Score}',
                               style: TextStyle(
-                                fontSize: 22,
+                                  fontSize: 22,
                                   fontWeight: (game.team1Score ?? 0) >=
                                           (game.team2Score ?? 0)
                                       ? FontWeight.bold
@@ -177,7 +179,7 @@ class AdminGameCard extends ConsumerWidget {
                             child: Text(
                               '${game.team2Score}',
                               style: TextStyle(
-                                fontSize: 22,
+                                  fontSize: 22,
                                   fontWeight: (game.team1Score ?? 0) <=
                                           (game.team2Score ?? 0)
                                       ? FontWeight.bold
@@ -197,7 +199,7 @@ class AdminGameCard extends ConsumerWidget {
                   Center(
                       child: Text(
                     'VS',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   )),
                 ],
               ),

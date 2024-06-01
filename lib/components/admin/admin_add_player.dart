@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
-import 'package:lob_app/components/admin/new_player_form.dart';
+import 'package:lob_app/pages/admin/new_player_form.dart';
 import 'package:lob_app/models/team.dart';
 
 class AdminAddPlayer extends StatelessWidget {
@@ -10,14 +10,8 @@ class AdminAddPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        showModalBottomSheet(
-          backgroundColor: LOBColors.secondaryBackGround,
-          isScrollControlled: true,
-          context: context,
-          builder: (context) {
-            return NewPlayerForm(team: team);
-          },
-        );
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NewPlayerForm(team: team)));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
-import 'package:lob_app/pages/user/get_info.dart';
+import 'package:lob_app/pages/get_info.dart';
+import 'package:lob_app/pages/loading_page.dart';
 import 'package:lob_app/providers/user_provider.dart';
 
 class Signup extends StatelessWidget {
@@ -14,14 +15,24 @@ class Signup extends StatelessWidget {
   final confirmController = TextEditingController();
   final UserService _userService = UserService();
 
+  void _showTranslucentPage(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => const TranslucentPage(),
+      ),
+    );
+  }
+
   void signUpPressed(context) async {
     if (passwordController.text == confirmController.text) {
       try {
+        _showTranslucentPage(context);
         await _userService.signup(
             email: emailController.text, password: passwordController.text);
+        Navigator.pop(context);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => InfoPage()));
-
       } on FirebaseAuthException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

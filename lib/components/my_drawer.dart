@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/pages/game_keeper.dart';
+import 'package:lob_app/pages/loading_page.dart';
 import 'package:lob_app/providers/user_provider.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
+
+  void _showTranslucentPage(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => const TranslucentPage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +77,12 @@ class MyDrawer extends StatelessWidget {
                       title: const Text(
                         "Log Out",
                       ),
-                      content:
-                          const Text("Are you sure you want to log out?"),
+                      content: const Text("Are you sure you want to log out?"),
                       actions: [
                         TextButton(
-                          onPressed: () {
-                            userService.logout(context);
-                            Navigator.of(context).pop();
+                          onPressed: () async {
+                            _showTranslucentPage(context);
+                            await userService.logout(context);
                           },
                           child: const Text(
                             "Log Out",

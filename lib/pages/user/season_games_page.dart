@@ -44,7 +44,7 @@ class SeasonGamesPage extends ConsumerWidget {
                       itemCount: season.games.length,
                       itemBuilder: (ctx, idx) => GameCard(
                             game: season.games[idx],
-                            images: snapshot.data,
+                            season: idx+1,
                           ));
                 },
               ),

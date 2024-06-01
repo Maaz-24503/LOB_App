@@ -43,19 +43,28 @@ class AdminTeamCard extends ConsumerWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-            gradient: LOBColors.cardBackground,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+            gradient: LOBColors.adminCardBackground,
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Card(
             elevation: 6,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
-              side: const BorderSide(
-                color: LOBColors.secondary,
-                width: 2.0,
-              ),
+              // side: const BorderSide(
+              //   color: LOBColors.secondary,
+              //   width: 2.0,
+              // ),
             ),
-            color: Colors.transparent, // Make the Card transparent to show gradient
+            color: Colors
+                .transparent, // Make the Card transparent to show gradient
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Hero(

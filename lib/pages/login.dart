@@ -5,7 +5,8 @@ import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
 import 'package:lob_app/models/user.dart';
 import 'package:lob_app/pages/decision_page.dart';
-import 'package:lob_app/pages/user/get_info.dart';
+import 'package:lob_app/pages/loading_page.dart';
+import 'package:lob_app/pages/get_info.dart';
 import 'package:lob_app/pages/signup.dart';
 import 'package:lob_app/pages/user/user_home_page.dart';
 import 'package:lob_app/providers/user_provider.dart';
@@ -18,8 +19,10 @@ class LoginPage extends StatelessWidget {
   final _userService = UserService();
   void loginPressed(context) async {
     try {
+      _showTranslucentPage(context);
       final Users currUser = await _userService.login(
           email: emailController.text, password: passwordController.text);
+      Navigator.pop(context);
       if (currUser.firstName == '') {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => InfoPage()));
@@ -40,9 +43,20 @@ class LoginPage extends StatelessWidget {
     }
   }
 
+  void _showTranslucentPage(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => const TranslucentPage(),
+      ),
+    );
+  }
+
   void googleLogin(context) async {
     try {
+      _showTranslucentPage(context);
       final Users currUser = await UserService().loginWithGoogle();
+      Navigator.pop(context);
       if (currUser.firstName == '') {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => InfoPage()));

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
-import 'package:lob_app/components/admin/add_game_form.dart';
+import 'package:lob_app/pages/admin/add_game_form.dart';
 
 class AddGameCard extends StatelessWidget {
   final int season;
@@ -10,19 +10,11 @@ class AddGameCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        showModalBottomSheet(
-          backgroundColor: LOBColors.secondaryBackGround,
-          isScrollControlled: true,
-          context: context,
+        Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AddGameForm(
-                season: season,
-              ),
-            );
+            return AddGameForm(season: season);
           },
-        );
+        ));
       },
       child: Card(
           elevation: 6,

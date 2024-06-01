@@ -24,7 +24,20 @@ class LOBColors {
     end: Alignment.bottomRight,
   );
   static const Gradient cardBackground = LinearGradient(
-    colors: [Colors.blue, Colors.purple],
+    colors: [Color.fromARGB(255, 0, 4, 61), Color.fromARGB(255, 255, 255, 255)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  static const Gradient adminCardBackground = LinearGradient(
+    colors: [secondary, Color.fromARGB(255, 254, 246, 255)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  static const Gradient formBackground = LinearGradient(
+    colors: [
+      Color.fromARGB(255, 0, 0, 0),
+      Color.fromARGB(255, 255, 255, 255),
+    ],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

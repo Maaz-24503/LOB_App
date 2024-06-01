@@ -5,6 +5,7 @@ import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
 import 'package:lob_app/models/user.dart';
 import 'package:lob_app/pages/admin/admin_home_page.dart';
+import 'package:lob_app/pages/loading_page.dart';
 import 'package:lob_app/pages/user/user_home_page.dart';
 import 'package:lob_app/providers/user_provider.dart';
 
@@ -13,9 +14,19 @@ class InfoPage extends StatelessWidget {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final UserService _userService = UserService();
+
+  void _showTranslucentPage(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => const TranslucentPage(),
+      ),
+    );
+  }
   void handlePressed(context) async {
     if (firstNameController.text != "" && lastNameController.text != "") {
       try {
+        _showTranslucentPage(context);
         await _userService.editName(
             firstName: firstNameController.text,
             lastName: lastNameController.text);

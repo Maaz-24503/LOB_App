@@ -1,12 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/models/schedule.dart';
+import 'package:lob_app/providers/logos_provider.dart';
 
-class GameCard extends StatelessWidget {
-  final Map<String, Image>? images;
+class GameCard extends ConsumerWidget {
   final Game game;
-
-  GameCard({super.key, this.images, required this.game});
+  final int season;
+  GameCard({super.key, required this.game, required this.season});
 
   final Map<int, String> months = {
     1: "January",
@@ -24,7 +26,8 @@ class GameCard extends StatelessWidget {
   };
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    AsyncValue<Map<String, CachedNetworkImage>> prov = ref.watch(logosProvider);
     final now = DateTime.now();
     final gameTime = game.time.toDate();
     final isPastGame = gameTime.isBefore(now);
@@ -70,9 +73,21 @@ class GameCard extends StatelessWidget {
                         children: [
                           CircleAvatar(
                               radius: 30,
-                              backgroundColor: LOBColors.backGround,
-                              child: images?[game.team1] ??
-                                  const CircularProgressIndicator()),
+                              backgroundColor: const Color.fromARGB(0, 231, 232, 255),
+                              child: prov.when(
+                                  data: (value) =>
+                                      value[game.team1] ??
+                                      const Icon(
+                                        Icons.error,
+                                      ),
+                                  error: (error, temp) => const Icon(
+                                        Icons.error,
+                                      ),
+                                  loading: () =>
+                                      const CircularProgressIndicator(
+                                        strokeWidth: 6,
+                                        color: LOBColors.secondary,
+                                      ))),
                           Text(game.team1),
                         ],
                       ),
@@ -84,9 +99,21 @@ class GameCard extends StatelessWidget {
                         children: [
                           CircleAvatar(
                               radius: 30,
-                              backgroundColor: LOBColors.backGround,
-                              child: images?[game.team2] ??
-                                  const CircularProgressIndicator()),
+                              backgroundColor: const Color.fromARGB(0, 231, 232, 255),
+                              child: prov.when(
+                                  data: (value) =>
+                                      value[game.team2] ??
+                                      const Icon(
+                                        Icons.error,
+                                      ),
+                                  error: (error, temp) => const Icon(
+                                        Icons.error,
+                                      ),
+                                  loading: () =>
+                                      const CircularProgressIndicator(
+                                        strokeWidth: 6,
+                                        color: LOBColors.secondary,
+                                      ))),
                           Text(game.team2),
                         ],
                       ),
@@ -104,6 +131,7 @@ class GameCard extends StatelessWidget {
                           child: Text(
                             '${game.team1Score}',
                             style: TextStyle(
+                              fontSize: 22,
                                 fontWeight: (game.team1Score ?? 0) >=
                                         (game.team2Score ?? 0)
                                     ? FontWeight.bold
@@ -115,6 +143,7 @@ class GameCard extends StatelessWidget {
                           child: Text(
                             '${game.team2Score}',
                             style: TextStyle(
+                              fontSize: 22,
                                 fontWeight: (game.team1Score ?? 0) <=
                                         (game.team2Score ?? 0)
                                     ? FontWeight.bold
@@ -134,7 +163,7 @@ class GameCard extends StatelessWidget {
                 Center(
                     child: Text(
                   'VS',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                 )),
               ],
             ),
