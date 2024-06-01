@@ -5,6 +5,7 @@ import 'package:lob_app/components/admin/admin_button.dart';
 import 'package:lob_app/components/admin/admin_text_field.dart';
 import 'package:lob_app/models/player.dart';
 import 'package:lob_app/models/team.dart';
+import 'package:lob_app/pages/loading_page.dart';
 import 'package:lob_app/providers/teams_provider.dart';
 
 class NewPlayerForm extends ConsumerWidget {
@@ -19,6 +20,16 @@ class NewPlayerForm extends ConsumerWidget {
 
   final TextEditingController jerseyController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
+
+  void _showTranslucentPage(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => const TranslucentPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final prov = ref.read(rostersProvider);
@@ -76,11 +87,13 @@ class NewPlayerForm extends ConsumerWidget {
                           height: heightController.text,
                           jerseyNumber: int.parse(jerseyController.text),
                           age: ageController.text);
-                      // await prov.addTeam(toBeAdded);
+                          
                       // ignore: use_build_context_synchronously
+                      _showTranslucentPage(context);
                       await ref
                           .read(rostersProvider.notifier)
                           .addPlayer(toBeAdded, team.name);
+                      Navigator.pop(context);
                       Navigator.pop(context);
                     } else {
                       showDialog(

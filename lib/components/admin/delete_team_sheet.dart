@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/models/team.dart';
+import 'package:lob_app/pages/loading_page.dart';
 import 'package:lob_app/providers/teams_provider.dart';
 
 class DeleteTeamSheet extends ConsumerWidget {
   final Team team;
   const DeleteTeamSheet({super.key, required this.team});
+
+  void _showTranslucentPage(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => const TranslucentPage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,9 +36,12 @@ class DeleteTeamSheet extends ConsumerWidget {
                 actions: [
                   TextButton(
                     onPressed: () async {
+                      _showTranslucentPage(context);
                       await ref.read(teamsProvider.notifier).removeTeam(team);
                       Navigator.pop(context);
                       Navigator.pop(context);
+                      Navigator.pop(context);
+                      
                     },
                     child: const Text(
                       "Delete",
@@ -60,17 +73,24 @@ class DeleteTeamSheet extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Remove team ${team.name}',
-                  style: const TextStyle(
-                    fontSize: 17,
-                    color: LOBColors.backGround,
-                    fontWeight: FontWeight.bold,
+                Flexible(
+                  flex: 5,
+                  child: Text(
+                    'Remove ${team.name}',
+                    style: const TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 17,
+                      color: LOBColors.backGround,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                const Icon(
-                  Icons.delete,
-                  color: Colors.white,
+                const Flexible(
+                  flex: 1,
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
                 )
               ],
             ),

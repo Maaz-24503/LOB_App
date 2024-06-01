@@ -21,7 +21,7 @@ final teamsProvider =
 );
 
 typedef _$Teams = AutoDisposeAsyncNotifier<List<Team>>;
-String _$rostersHash() => r'73e90044cd61dd852da106cbd3c662ad66d5f5ae';
+String _$rostersHash() => r'6724b0d6ecf9f8fe15ac819fcc3ba08bf958705f';
 
 /// See also [Rosters].
 @ProviderFor(Rosters)

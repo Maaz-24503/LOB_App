@@ -41,9 +41,11 @@ class GameCard extends StatelessWidget {
               offset: Offset(0, 5),
             ),
           ],
-          color: LOBColors.backGround,
+          gradient: isPastGame
+              ? LOBColors.gameOverBackground
+              : LOBColors.yetToHappenBackground,
           border: Border.all(
-            color: isPastGame ? LOBColors.primary : Colors.green,
+            color: isPastGame ? LOBColors.gameOver : LOBColors.yetToHappen,
             width: 2,
           ),
           borderRadius: BorderRadius.circular(10),

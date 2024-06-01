@@ -11,6 +11,7 @@ class AdminsTeamPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<Team>> prov = ref.watch(teamsProvider);
+    
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

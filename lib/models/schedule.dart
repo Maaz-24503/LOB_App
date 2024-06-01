@@ -7,7 +7,7 @@ class GamesSchedule {
   GamesSchedule({required this.season, required this.games});
 
   factory GamesSchedule.fromJson(Map<String, dynamic> json) {
-    var temp =  GamesSchedule(
+    var temp = GamesSchedule(
       season: json['season'],
       games:
           (json['games'] as List).map((game) => Game.fromJson(game)).toList(),
@@ -61,5 +61,10 @@ class Game {
       'team1Score': team1Score,
       'team2Score': team2Score,
     };
+  }
+
+  @override
+  String toString() {
+    return "$team1, $team2, $team1Score, $team2Score";
   }
 }

@@ -4,6 +4,8 @@ import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/components/admin/admin_button.dart';
 import 'package:lob_app/components/admin/admin_text_field.dart';
 import 'package:lob_app/models/team.dart';
+import 'package:lob_app/pages/loading_page.dart';
+import 'package:lob_app/providers/logos_provider.dart';
 import 'package:lob_app/providers/teams_provider.dart';
 
 class NewTeamForm extends ConsumerWidget {
@@ -14,9 +16,18 @@ class NewTeamForm extends ConsumerWidget {
   final TextEditingController nameLessIconController = TextEditingController();
 
   final TextEditingController namedIconController = TextEditingController();
+
+  void _showTranslucentPage(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => const TranslucentPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prov = ref.read(teamsProvider);
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.6,
       child: SingleChildScrollView(
@@ -59,7 +70,12 @@ class NewTeamForm extends ConsumerWidget {
                       });
                       // await prov.addTeam(toBeAdded);
                       // ignore: use_build_context_synchronously
+                      _showTranslucentPage(context);
                       await ref.read(teamsProvider.notifier).addTeam(toBeAdded);
+                      await ref
+                          .read(logosProvider.notifier)
+                          .add(toBeAdded.name, toBeAdded.namedLogo!);
+                      Navigator.pop(context);
                       Navigator.pop(context);
                     } else {
                       showDialog(

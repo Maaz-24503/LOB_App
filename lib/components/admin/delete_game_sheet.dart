@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
-import 'package:lob_app/models/player.dart';
+import 'package:lob_app/models/schedule.dart';
 import 'package:lob_app/pages/loading_page.dart';
+import 'package:lob_app/providers/schedule_provider.dart';
+import 'package:lob_app/providers/standings_provider.dart';
 import 'package:lob_app/providers/teams_provider.dart';
 
-class DeletePlayerSheet extends ConsumerWidget {
-  final String team;
-  final Player player;
-
-  const DeletePlayerSheet(
-      {super.key, required this.team, required this.player});
+class DeleteGameSheet extends ConsumerWidget {
+  final Game game;
+  final int season;
+  const DeleteGameSheet({super.key, required this.game, required this.season});
 
   void _showTranslucentPage(BuildContext context) {
     Navigator.of(context).push(
@@ -23,6 +23,8 @@ class DeletePlayerSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    AsyncValue<List<GamesSchedule>> prov = ref.watch(gamesProvider);
+    var temp = ref.read(teamsProvider);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -32,17 +34,18 @@ class DeletePlayerSheet extends ConsumerWidget {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: const Text(
-                  "Delete Player",
+                  "Delete Game",
                 ),
                 content: Text(
-                    "Are you sure you want to remove ${player.firstName} as a player of $team. This action cannot be reverted?"),
+                    "Are you sure you want to remove ${game.team1} vs ${game.team2}. This action cannot be reverted?"),
                 actions: [
                   TextButton(
                     onPressed: () async {
                       _showTranslucentPage(context);
                       await ref
-                          .read(rostersProvider.notifier)
-                          .removePlayer(player, team);
+                          .read(gamesProvider.notifier)
+                          .removeGame(game, season);
+                      await ref.read(seasonsProvider.notifier).updateStandings(season);
                       Navigator.pop(context);
                       Navigator.pop(context);
                       Navigator.pop(context);
@@ -80,7 +83,7 @@ class DeletePlayerSheet extends ConsumerWidget {
                 Flexible(
                   flex: 5,
                   child: Text(
-                    'Remove ${player.firstName}',
+                    'Remove ${game.team1} vs ${game.team2}',
                     style: const TextStyle(
                       overflow: TextOverflow.ellipsis,
                       fontSize: 17,
