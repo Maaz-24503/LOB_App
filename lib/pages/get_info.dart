@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
 import 'package:lob_app/models/user.dart';
@@ -14,7 +15,7 @@ class InfoPage extends StatelessWidget {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final UserService _userService = UserService();
-
+  final _helper = Helper();
   void _showTranslucentPage(BuildContext context) {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -23,14 +24,18 @@ class InfoPage extends StatelessWidget {
       ),
     );
   }
+
   void handlePressed(context) async {
     if (firstNameController.text != "" && lastNameController.text != "") {
       try {
         _showTranslucentPage(context);
-        await _userService.editName(
-            firstName: firstNameController.text,
-            lastName: lastNameController.text);
-        final Users currUser = await _userService.getUser();
+        final Users currUser =
+            await _helper.executeWithInternetCheck(context, () async {
+          await _userService.editName(
+              firstName: firstNameController.text,
+              lastName: lastNameController.text);
+          return await _userService.getUser();
+        });
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
                 builder: (context) => (currUser.role == Role.user)
@@ -38,6 +43,7 @@ class InfoPage extends StatelessWidget {
                     : const AdminHomePage()),
             (route) => false);
       } on FirebaseAuthException catch (error) {
+        Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               backgroundColor: Colors.red,

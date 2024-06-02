@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/components/admin/admin_button.dart';
 import 'package:lob_app/components/admin/admin_text_field.dart';
 import 'package:lob_app/models/team.dart';
@@ -18,6 +19,8 @@ class NewTeamForm extends ConsumerWidget {
   final TextEditingController nameLessIconController = TextEditingController();
 
   final TextEditingController namedIconController = TextEditingController();
+
+  final _helper = Helper();
 
   void _showTranslucentPage(BuildContext context) {
     Navigator.of(context).push(
@@ -103,12 +106,15 @@ class NewTeamForm extends ConsumerWidget {
                                   // await prov.addTeam(toBeAdded);
                                   // ignore: use_build_context_synchronously
                                   _showTranslucentPage(context);
-                                  await ref
-                                      .read(teamsProvider.notifier)
-                                      .addTeam(toBeAdded);
-                                  await ref.read(logosProvider.notifier).add(
-                                      toBeAdded.name, toBeAdded.namedLogo!);
-                                  Navigator.pop(context);
+                                  await _helper.executeWithInternetCheck(
+                                      context, () async {
+                                    await ref
+                                        .read(teamsProvider.notifier)
+                                        .addTeam(toBeAdded);
+                                    await ref.read(logosProvider.notifier).add(
+                                        toBeAdded.name, toBeAdded.namedLogo!);
+                                  });
+
                                   Navigator.pop(context);
                                 } else {
                                   showDialog(

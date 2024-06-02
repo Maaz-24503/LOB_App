@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/models/player.dart';
 import 'package:lob_app/pages/loading_page.dart';
 import 'package:lob_app/providers/teams_provider.dart';
@@ -9,8 +10,9 @@ class DeletePlayerSheet extends ConsumerWidget {
   final String team;
   final Player player;
 
-  const DeletePlayerSheet(
-      {super.key, required this.team, required this.player});
+  final _helper = Helper();
+
+  DeletePlayerSheet({super.key, required this.team, required this.player});
 
   void _showTranslucentPage(BuildContext context) {
     Navigator.of(context).push(
@@ -40,10 +42,12 @@ class DeletePlayerSheet extends ConsumerWidget {
                   TextButton(
                     onPressed: () async {
                       _showTranslucentPage(context);
-                      await ref
-                          .read(rostersProvider.notifier)
-                          .removePlayer(player, team);
-                      Navigator.pop(context);
+                      await _helper.executeWithInternetCheck(context, () async {
+                        await ref
+                            .read(rostersProvider.notifier)
+                            .removePlayer(player, team);
+                      });
+
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },

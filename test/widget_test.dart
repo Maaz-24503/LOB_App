@@ -10,7 +10,8 @@ void main() {
     expect(find.text('Basketball Score Keeper'), findsOneWidget);
   });
 
-  testWidgets('Team names input fields are present', (WidgetTester tester) async {
+  testWidgets('Team names input fields are present',
+      (WidgetTester tester) async {
     await tester.pumpWidget(const MaterialApp(home: GameKeeperPage()));
 
     // Check if the input fields for team names are present
@@ -19,7 +20,8 @@ void main() {
     expect(find.text('Team 2 Name'), findsOneWidget);
   });
 
-  testWidgets('Score buttons increment and decrement the scores', (WidgetTester tester) async {
+  testWidgets('Score buttons increment and decrement the scores',
+      (WidgetTester tester) async {
     await tester.pumpWidget(const MaterialApp(home: GameKeeperPage()));
 
     // Set default team names
@@ -52,6 +54,7 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: GameKeeperPage()));
 
     // Start the timers
+    expect(find.text('Start'), findsOneWidget);
     await tester.tap(find.text('Start'));
     await tester.pumpAndSettle();
     expect(find.text('Pause'), findsOneWidget);

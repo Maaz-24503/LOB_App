@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
 import 'package:lob_app/models/user.dart';
@@ -14,15 +15,22 @@ import 'package:lob_app/providers/user_provider.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
+  final _helper = Helper();
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final _userService = UserService();
+
   void loginPressed(context) async {
     try {
       _showTranslucentPage(context);
-      final Users currUser = await _userService.login(
-          email: emailController.text, password: passwordController.text);
-      Navigator.pop(context);
+
+      final Users currUser =
+          await _helper.executeWithInternetCheck(context, () async {
+        return await _userService.login(
+            email: emailController.text, password: passwordController.text);
+      });
+
       if (currUser.firstName == '') {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => InfoPage()));
@@ -32,6 +40,7 @@ class LoginPage extends StatelessWidget {
             (route) => false);
       }
     } on FirebaseAuthException catch (error) {
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             backgroundColor: Colors.red,
@@ -55,8 +64,10 @@ class LoginPage extends StatelessWidget {
   void googleLogin(context) async {
     try {
       _showTranslucentPage(context);
-      final Users currUser = await UserService().loginWithGoogle();
-      Navigator.pop(context);
+      final Users currUser =
+          await _helper.executeWithInternetCheck(context, () async {
+        return await UserService().loginWithGoogle();
+      });
       if (currUser.firstName == '') {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => InfoPage()));
@@ -66,6 +77,7 @@ class LoginPage extends StatelessWidget {
             (route) => false);
       }
     } on FirebaseAuthException catch (error) {
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             backgroundColor: Colors.red,
@@ -130,20 +142,23 @@ class LoginPage extends StatelessWidget {
                     text: 'Login', onPressed: () => loginPressed(context)),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, right: 26),
-                  child:
-                      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    const Text("Dont have an account?"),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Signup()));
-                      },
-                      child: const Text(
-                        " Sign up",
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    )
-                  ]),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Dont have an account?"),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Signup()));
+                          },
+                          child: const Text(
+                            " Sign up",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                        )
+                      ]),
                 ),
                 const SizedBox(
                   height: 30,

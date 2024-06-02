@@ -17,7 +17,7 @@ class AdminsSchedulePage extends ConsumerWidget {
           itemCount: value.length + 1,
           itemBuilder: (context, index) {
             return (index == value.length)
-                ? const AddSeasonTile()
+                ? AddSeasonTile()
                 : AdminSeasonTiles(season: value[index], latestSeason: value.length);
           }),
       loading: () => const Center(

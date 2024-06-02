@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/components/auth_button.dart';
 import 'package:lob_app/components/text_field.dart';
 import 'package:lob_app/pages/get_info.dart';
@@ -14,7 +15,7 @@ class Signup extends StatelessWidget {
   final passwordController = TextEditingController();
   final confirmController = TextEditingController();
   final UserService _userService = UserService();
-
+  final _helper = Helper();
   void _showTranslucentPage(BuildContext context) {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -28,12 +29,18 @@ class Signup extends StatelessWidget {
     if (passwordController.text == confirmController.text) {
       try {
         _showTranslucentPage(context);
-        await _userService.signup(
-            email: emailController.text, password: passwordController.text);
-        Navigator.pop(context);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => InfoPage()));
+
+        await _helper.executeWithInternetCheck(context, () async {
+          await _userService.signup(
+              email: emailController.text, password: passwordController.text);
+        });
+
+        if (FirebaseAuth.instance.currentUser != null) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => InfoPage()));
+        }
       } on FirebaseAuthException catch (error) {
+        Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               backgroundColor: Colors.red,

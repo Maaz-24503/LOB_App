@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/models/schedule.dart';
 import 'package:lob_app/pages/admin/admin_games_page.dart';
 import 'package:lob_app/pages/loading_page.dart';
@@ -10,7 +11,7 @@ import 'package:lob_app/providers/standings_provider.dart';
 class AdminSeasonTiles extends ConsumerWidget {
   final GamesSchedule season;
   final int latestSeason;
-  const AdminSeasonTiles(
+  AdminSeasonTiles(
       {super.key, required this.season, required this.latestSeason});
 
   void _showTranslucentPage(BuildContext context) {
@@ -21,6 +22,8 @@ class AdminSeasonTiles extends ConsumerWidget {
       ),
     );
   }
+
+  final _helper = Helper();
 
   Future<bool?> _showDeleteConfirmationDialog(
       BuildContext context, WidgetRef ref) {
@@ -41,9 +44,10 @@ class AdminSeasonTiles extends ConsumerWidget {
             TextButton(
               onPressed: () async {
                 _showTranslucentPage(context);
-                await ref.read(seasonsProvider.notifier).deleteLatestSeason();
-                await ref.read(gamesProvider.notifier).removeLatestSeason();
-                Navigator.pop(context);
+                await _helper.executeWithInternetCheck(context, () async {
+                  await ref.read(seasonsProvider.notifier).deleteLatestSeason();
+                  await ref.read(gamesProvider.notifier).removeLatestSeason();
+                });
                 Navigator.pop(context);
               },
               child: const Text('Delete'),

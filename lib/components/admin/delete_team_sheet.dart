@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/models/team.dart';
 import 'package:lob_app/pages/loading_page.dart';
 import 'package:lob_app/providers/teams_provider.dart';
 
 class DeleteTeamSheet extends ConsumerWidget {
   final Team team;
-  const DeleteTeamSheet({super.key, required this.team});
+  DeleteTeamSheet({super.key, required this.team});
 
   void _showTranslucentPage(BuildContext context) {
     Navigator.of(context).push(
@@ -17,6 +18,8 @@ class DeleteTeamSheet extends ConsumerWidget {
       ),
     );
   }
+
+  final _helper = Helper();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,11 +40,11 @@ class DeleteTeamSheet extends ConsumerWidget {
                   TextButton(
                     onPressed: () async {
                       _showTranslucentPage(context);
-                      await ref.read(teamsProvider.notifier).removeTeam(team);
+                      await _helper.executeWithInternetCheck(context, () async {
+                        await ref.read(teamsProvider.notifier).removeTeam(team);
+                      });
                       Navigator.pop(context);
                       Navigator.pop(context);
-                      Navigator.pop(context);
-                      
                     },
                     child: const Text(
                       "Delete",

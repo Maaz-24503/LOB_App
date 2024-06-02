@@ -22,3 +22,6 @@ DeviceBuilder createGoldenBuilder(Widget widget, String title) {
       name: title,
     );
 }
+
+
+//flutter test .\golden_integration_test\golden_user_home_page_test.dart --update-goldens

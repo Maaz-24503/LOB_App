@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/models/schedule.dart';
 import 'dart:ui';
 import 'package:lob_app/pages/loading_page.dart';
@@ -31,6 +32,8 @@ class AddGameScore extends ConsumerWidget {
 
   final TextEditingController team1Score = TextEditingController();
   final TextEditingController team2Score = TextEditingController();
+
+  final _helper = Helper();
 
   void _showTranslucentPage(BuildContext context) {
     Navigator.of(context).push(
@@ -238,15 +241,17 @@ class AddGameScore extends ConsumerWidget {
                           if (int.tryParse(team1Score.text) != null &&
                               int.tryParse(team2Score.text) != null) {
                             _showTranslucentPage(context);
-                            await ref.read(gamesProvider.notifier).editScore(
-                                game,
-                                season,
-                                int.parse(team1Score.text),
-                                int.parse(team2Score.text));
-                            await ref
-                                .read(seasonsProvider.notifier)
-                                .updateStandings(season);
-                            Navigator.pop(context);
+                            await _helper.executeWithInternetCheck(context,
+                                () async {
+                              await ref.read(gamesProvider.notifier).editScore(
+                                  game,
+                                  season,
+                                  int.parse(team1Score.text),
+                                  int.parse(team2Score.text));
+                              await ref
+                                  .read(seasonsProvider.notifier)
+                                  .updateStandings(season);
+                            });
                             Navigator.pop(context);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

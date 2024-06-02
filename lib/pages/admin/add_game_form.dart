@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/components/admin/admin_button.dart';
 import 'package:lob_app/common/colors.dart';
 import 'package:lob_app/components/drop_down_box.dart';
@@ -20,6 +21,8 @@ class AddGameForm extends ConsumerWidget {
 
   final ValueNotifier<String?> team1Controller = ValueNotifier<String?>(null);
   final ValueNotifier<String?> team2Controller = ValueNotifier<String?>(null);
+
+  final _helper = Helper();
 
   final Map<int, String> months = {
     1: "January",
@@ -59,7 +62,8 @@ class AddGameForm extends ConsumerWidget {
               onPrimary: Colors.white, // header text color
               onSurface: LOBColors.secondary, // body text color
             ),
-            dialogBackgroundColor: Colors.white, // background color of the dialog
+            dialogBackgroundColor:
+                Colors.white, // background color of the dialog
           ),
           child: child!,
         );
@@ -79,7 +83,8 @@ class AddGameForm extends ConsumerWidget {
               ),
               timePickerTheme: const TimePickerThemeData(
                 dialHandColor: LOBColors.secondary, // clock dial hand color
-                hourMinuteTextColor: LOBColors.secondary, // hour and minute text color
+                hourMinuteTextColor:
+                    LOBColors.secondary, // hour and minute text color
               ),
             ),
             child: child!,
@@ -105,7 +110,7 @@ class AddGameForm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final teams = ref.watch(teamsProvider);
     final selectedDateTime = ref.watch(dateTimeProvider);
-    
+
     return Scaffold(
       body: Stack(
         children: [
@@ -140,7 +145,8 @@ class AddGameForm extends ConsumerWidget {
                           top: 35.0, left: 8, right: 8, bottom: 8),
                       child: teams.when(
                         data: (items) {
-                          final teamNames = items.map((team) => team.name).toList();
+                          final teamNames =
+                              items.map((team) => team.name).toList();
                           return MyDropdown(
                             items: teamNames,
                             hintText: "Select team 1",
@@ -155,7 +161,8 @@ class AddGameForm extends ConsumerWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: teams.when(
                         data: (items) {
-                          final teamNames = items.map((team) => team.name).toList();
+                          final teamNames =
+                              items.map((team) => team.name).toList();
                           return MyDropdown(
                             items: teamNames,
                             hintText: "Select team 2",
@@ -173,9 +180,9 @@ class AddGameForm extends ConsumerWidget {
                           ElevatedButton(
                             onPressed: () => _selectDateTime(context, ref),
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: LOBColors.secondary,
-                              backgroundColor: Colors.white // button color
-                            ),
+                                foregroundColor: LOBColors.secondary,
+                                backgroundColor: Colors.white // button color
+                                ),
                             child: const Text("Select Date & Time"),
                           ),
                           if (selectedDateTime != null)
@@ -184,9 +191,9 @@ class AddGameForm extends ConsumerWidget {
                               child: Text(
                                 'Selected: ${selectedDateTime.toLocal().day.toString().padLeft(2, '0')}, ${months[selectedDateTime.toLocal().month]}, ${selectedDateTime.toLocal().year}, ${selectedDateTime.toLocal().hour.toString().padLeft(2, '0')}:${selectedDateTime.toLocal().minute.toString().padLeft(2, '0')}',
                                 style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: LOBColors.secondary),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: LOBColors.secondary),
                               ),
                             ),
                         ],
@@ -201,18 +208,19 @@ class AddGameForm extends ConsumerWidget {
                               team2Controller.value != null &&
                               selectedDateTime != null) {
                             _showTranslucentPage(context);
-                            await ref.watch(gamesProvider.notifier).addGame(
-                              Game(
-                                team1: team1Controller.value!,
-                                team2: team2Controller.value!,
-                                time: Timestamp.fromDate(selectedDateTime)
-                              ),
-                              season
-                            );
-                            await ref
-                              .read(seasonsProvider.notifier)
-                              .updateStandings(season);
-                            Navigator.pop(context);
+                            await _helper.executeWithInternetCheck(context,
+                                () async {
+                              await ref.watch(gamesProvider.notifier).addGame(
+                                  Game(
+                                      team1: team1Controller.value!,
+                                      team2: team2Controller.value!,
+                                      time:
+                                          Timestamp.fromDate(selectedDateTime)),
+                                  season);
+                              await ref
+                                  .read(seasonsProvider.notifier)
+                                  .updateStandings(season);
+                            });
                             Navigator.pop(context);
                           } else {
                             showDialog(
@@ -221,7 +229,7 @@ class AddGameForm extends ConsumerWidget {
                                 return AlertDialog(
                                   title: const Text("Incomplete Form"),
                                   content: const Text(
-                                    "Please fill all fields and select a date and time."),
+                                      "Please fill all fields and select a date and time."),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
@@ -229,7 +237,8 @@ class AddGameForm extends ConsumerWidget {
                                       },
                                       child: const Text(
                                         "Okay",
-                                        style: TextStyle(color: LOBColors.secondary),
+                                        style: TextStyle(
+                                            color: LOBColors.secondary),
                                       ),
                                     ),
                                   ],

@@ -3,18 +3,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:lob_app/models/team.dart';
 import 'package:lob_app/pages/user/user_home_page.dart';
-import 'package:lob_app/providers/teams_provider.dart'; // Assuming TeamsProvider is here
 import 'package:network_image_mock/network_image_mock.dart';
 
 import 'util/golden_tookit_helper.dart';
 
-final mockTeamsProvider = Provider<List<Team>>((ref) {
-  // Replace with your desired mock data for teams
-  return [
-    Team(name: 'Team A', namelessLogo: 'logo.png', namedLogo: 'logo_colored.png'),
-    Team(name: 'Team B', namelessLogo: 'logo2.png', namedLogo: 'logo2_colored.png'),
-  ];
-});
+// Mock data for teams
+final List<Team> mockTeams = [
+  Team(name: 'Team A', namelessLogo: 'logo.png', namedLogo: 'logo_colored.png'),
+  Team(
+      name: 'Team B',
+      namelessLogo: 'logo2.png',
+      namedLogo: 'logo2_colored.png'),
+];
+
+// Custom mock provider
+final mockTeamsProvider = StateProvider<List<Team>>((ref) => mockTeams);
 
 void main() async {
   setUpAll(() async {});
@@ -29,16 +32,19 @@ void main() async {
           () async {
             await tester.pumpDeviceBuilder(
               createGoldenBuilder(
-                ProviderScope(
-                  overrides: [
-                    // Correctly override the teamsProvider
-                    teamsProvider.overrideWithValue(mockTeamsProvider),
-                  ],
-                  child: const UserHomePage(),
+                const ProviderScope(
+                  child: UserHomePage(),
                 ),
-                'user_home_path', // Consider renaming for clarity
+                'user_home_page', // Consider renaming for clarity
               ),
             );
+
+            // Assertions for UserHomePage
+            expect(find.text('Team A'),
+                findsOneWidget); // Assert team name presence
+            expect(find.text('Team B'),
+                findsOneWidget); // Assert another team name
+            // Add more assertions based on your UI elements and data
           },
         );
       });

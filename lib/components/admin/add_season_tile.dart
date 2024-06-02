@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/pages/loading_page.dart';
 import 'package:lob_app/providers/schedule_provider.dart';
 import 'package:lob_app/providers/standings_provider.dart';
 
 class AddSeasonTile extends ConsumerWidget {
-  const AddSeasonTile({super.key});
+  AddSeasonTile({super.key});
 
   void _showTranslucentPage(BuildContext context) {
     Navigator.of(context).push(
@@ -16,6 +17,8 @@ class AddSeasonTile extends ConsumerWidget {
       ),
     );
   }
+
+  final _helper = Helper();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,11 +53,13 @@ class AddSeasonTile extends ConsumerWidget {
                       TextButton(
                         onPressed: () async {
                           _showTranslucentPage(context);
-                          await ref
-                              .read(seasonsProvider.notifier)
-                              .createSeason();
-                          await ref.read(gamesProvider.notifier).addSeason();
-                          Navigator.pop(context);
+                          await _helper.executeWithInternetCheck(context,
+                              () async {
+                            await ref
+                                .read(seasonsProvider.notifier)
+                                .createSeason();
+                            await ref.read(gamesProvider.notifier).addSeason();
+                          });
                           Navigator.pop(context);
                         },
                         child: const Text(

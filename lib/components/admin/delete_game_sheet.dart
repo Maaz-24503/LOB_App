@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/models/schedule.dart';
 import 'package:lob_app/pages/loading_page.dart';
 import 'package:lob_app/providers/schedule_provider.dart';
@@ -9,7 +10,7 @@ import 'package:lob_app/providers/standings_provider.dart';
 class DeleteGameSheet extends ConsumerWidget {
   final Game game;
   final int season;
-  const DeleteGameSheet({super.key, required this.game, required this.season});
+  DeleteGameSheet({super.key, required this.game, required this.season});
 
   void _showTranslucentPage(BuildContext context) {
     Navigator.of(context).push(
@@ -19,6 +20,8 @@ class DeleteGameSheet extends ConsumerWidget {
       ),
     );
   }
+
+  final _helper = Helper();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,11 +42,14 @@ class DeleteGameSheet extends ConsumerWidget {
                   TextButton(
                     onPressed: () async {
                       _showTranslucentPage(context);
-                      await ref
-                          .read(gamesProvider.notifier)
-                          .removeGame(game, season);
-                      await ref.read(seasonsProvider.notifier).updateStandings(season);
-                      Navigator.pop(context);
+                      await _helper.executeWithInternetCheck(context, () async {
+                        await ref
+                            .read(gamesProvider.notifier)
+                            .removeGame(game, season);
+                        await ref
+                            .read(seasonsProvider.notifier)
+                            .updateStandings(season);
+                      });
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },

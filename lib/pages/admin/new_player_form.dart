@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lob_app/common/colors.dart';
+import 'package:lob_app/common/helper.dart';
 import 'package:lob_app/components/admin/admin_button.dart';
 import 'package:lob_app/components/admin/admin_text_field.dart';
 import 'package:lob_app/models/player.dart';
@@ -19,6 +20,8 @@ class NewPlayerForm extends ConsumerWidget {
   final TextEditingController heightController = TextEditingController();
   final TextEditingController jerseyController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
+
+  final _helper = Helper();
 
   void _showTranslucentPage(BuildContext context) {
     Navigator.of(context).push(
@@ -124,10 +127,13 @@ class NewPlayerForm extends ConsumerWidget {
 
                                     // ignore: use_build_context_synchronously
                                     _showTranslucentPage(context);
-                                    await ref
-                                        .read(rostersProvider.notifier)
-                                        .addPlayer(toBeAdded, team.name);
-                                    Navigator.pop(context);
+                                    await _helper.executeWithInternetCheck(
+                                        context, () async {
+                                      await ref
+                                          .read(rostersProvider.notifier)
+                                          .addPlayer(toBeAdded, team.name);
+                                    });
+
                                     Navigator.pop(context);
                                   } else {
                                     showDialog(
