@@ -21,7 +21,6 @@ class _HomeState extends ConsumerState<RosterPage> {
   void initState() {
     super.initState();
     ref.listenManual(rostersProvider, (previous, next) {
-      // TODO show a snackbar/dialog
     });
   }
 

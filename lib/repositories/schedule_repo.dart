@@ -38,7 +38,6 @@ class ScheduleRepo {
     try {
       final querySnapshot =
           await FirebaseFirestore.instance.collection('games').get();
-      Map<String, dynamic> temp = game.toJson();
       var tba = querySnapshot.docs.first['season'];
       for (var i = 0; i < tba.length; i++) {
         if (tba[i]['season'] == season) {
@@ -74,7 +73,6 @@ class ScheduleRepo {
     try {
       final querySnapshot =
           await FirebaseFirestore.instance.collection('games').get();
-      Map<String, dynamic> temp = game.toJson();
       var tba = querySnapshot.docs.first['season'];
       for (var i = 0; i < tba.length; i++) {
         if (tba[i]['season'] == season) {

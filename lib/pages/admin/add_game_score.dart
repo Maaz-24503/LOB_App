@@ -102,7 +102,8 @@ class AddGameScore extends ConsumerWidget {
                               children: [
                                 CircleAvatar(
                                     radius: 30,
-                                    backgroundColor: const Color.fromARGB(0, 231, 232, 255),
+                                    backgroundColor:
+                                        const Color.fromARGB(0, 231, 232, 255),
                                     child: Hero(
                                       tag: "${game.team1}, ${game.time}",
                                       child: prov.when(
@@ -131,7 +132,8 @@ class AddGameScore extends ConsumerWidget {
                               children: [
                                 CircleAvatar(
                                     radius: 30,
-                                    backgroundColor: const Color.fromARGB(0, 231, 232, 255),
+                                    backgroundColor:
+                                        const Color.fromARGB(0, 231, 232, 255),
                                     child: Hero(
                                       tag: "${game.team2}, ${game.time}",
                                       child: prov.when(
@@ -235,8 +237,6 @@ class AddGameScore extends ConsumerWidget {
                         onPressed: () async {
                           if (int.tryParse(team1Score.text) != null &&
                               int.tryParse(team2Score.text) != null) {
-                            int t1Score = int.parse(team1Score.text);
-                            int t2Score = int.parse(team2Score.text);
                             _showTranslucentPage(context);
                             await ref.read(gamesProvider.notifier).editScore(
                                 game,

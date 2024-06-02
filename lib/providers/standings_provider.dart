@@ -6,6 +6,7 @@ part 'standings_provider.g.dart';
 
 @riverpod
 class Seasons extends _$Seasons {
+  @override
   Future<Season> build() async => StandingsService().getAllSeasons();
   Future<void> updateStandings(int season) async {
     await StandingsService().updateAllStandings(season);

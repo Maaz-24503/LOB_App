@@ -5,7 +5,6 @@ import 'package:lob_app/models/schedule.dart';
 import 'package:lob_app/pages/loading_page.dart';
 import 'package:lob_app/providers/schedule_provider.dart';
 import 'package:lob_app/providers/standings_provider.dart';
-import 'package:lob_app/providers/teams_provider.dart';
 
 class DeleteGameSheet extends ConsumerWidget {
   final Game game;
@@ -23,8 +22,6 @@ class DeleteGameSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<List<GamesSchedule>> prov = ref.watch(gamesProvider);
-    var temp = ref.read(teamsProvider);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(

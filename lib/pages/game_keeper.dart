@@ -6,10 +6,10 @@ class GameKeeperPage extends StatefulWidget {
   const GameKeeperPage({super.key});
 
   @override
-  _GameKeeperPageState createState() => _GameKeeperPageState();
+  GameKeeperPageState createState() => GameKeeperPageState();
 }
 
-class _GameKeeperPageState extends State<GameKeeperPage> {
+class GameKeeperPageState extends State<GameKeeperPage> {
   TextEditingController team1Controller = TextEditingController();
   TextEditingController team2Controller = TextEditingController();
 
@@ -105,6 +105,30 @@ class _GameKeeperPageState extends State<GameKeeperPage> {
     return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
+  void incrementTeam1Score() {
+    setState(() {
+      team1Score++;
+    });
+  }
+
+  void incrementTeam2Score() {
+    setState(() {
+      team2Score++;
+    });
+  }
+
+  void decrementTeam1Score() {
+    setState(() {
+      team1Score--;
+    });
+  }
+
+  void decrementTeam2Score() {
+    setState(() {
+      team2Score--;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,9 +204,7 @@ class _GameKeeperPageState extends State<GameKeeperPage> {
                               const SizedBox(height: 10),
                               ElevatedButton(
                                 onPressed: () {
-                                  setState(() {
-                                    team1Score++;
-                                  });
+                                  incrementTeam1Score();
                                 },
                                 style: ElevatedButton.styleFrom(
                                     shape: const CircleBorder()),
@@ -191,9 +213,7 @@ class _GameKeeperPageState extends State<GameKeeperPage> {
                               const SizedBox(height: 10),
                               ElevatedButton(
                                 onPressed: () {
-                                  setState(() {
-                                    if (team1Score > 0) team1Score--;
-                                  });
+                                  if (team1Score > 0) decrementTeam1Score();
                                 },
                                 style: ElevatedButton.styleFrom(
                                     shape: const CircleBorder()),
@@ -214,9 +234,7 @@ class _GameKeeperPageState extends State<GameKeeperPage> {
                               const SizedBox(height: 10),
                               ElevatedButton(
                                 onPressed: () {
-                                  setState(() {
-                                    team2Score++;
-                                  });
+                                  incrementTeam2Score();
                                 },
                                 style: ElevatedButton.styleFrom(
                                     shape: const CircleBorder()),
@@ -225,9 +243,7 @@ class _GameKeeperPageState extends State<GameKeeperPage> {
                               const SizedBox(height: 10),
                               ElevatedButton(
                                 onPressed: () {
-                                  setState(() {
-                                    if (team2Score > 0) team2Score--;
-                                  });
+                                  if (team2Score > 0) decrementTeam2Score();
                                 },
                                 style: ElevatedButton.styleFrom(
                                     shape: const CircleBorder()),

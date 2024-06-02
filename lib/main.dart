@@ -15,8 +15,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: DecisionPage(),
+    return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'Proxima',
+      ),
+      home: const DecisionPage(),
       debugShowCheckedModeBanner: false,
     );
   }

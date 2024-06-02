@@ -105,9 +105,7 @@ class AddGameForm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final teams = ref.watch(teamsProvider);
     final selectedDateTime = ref.watch(dateTimeProvider);
-
-    final now = DateTime.now();
-
+    
     return Scaffold(
       body: Stack(
         children: [

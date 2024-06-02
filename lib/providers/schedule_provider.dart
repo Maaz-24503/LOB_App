@@ -59,7 +59,6 @@ class Games extends _$Games {
           }
         }
         previousState[i] = GamesSchedule.fromJson(tba);
-        print(previousState[i].games.length);
       }
     }
     ref.notifyListeners();

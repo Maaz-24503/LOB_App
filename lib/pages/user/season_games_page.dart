@@ -40,12 +40,12 @@ class SeasonGamesPage extends ConsumerWidget {
               data: (value) => FutureBuilder(
                 future: getImages(value, context),
                 builder: (context, snapshot) {
-                  return ListView.builder(
+                  return season.games.isNotEmpty?ListView.builder(
                       itemCount: season.games.length,
                       itemBuilder: (ctx, idx) => GameCard(
                             game: season.games[idx],
                             season: idx+1,
-                          ));
+                          )):const Center(child: Text("No games played so far"));
                 },
               ),
               loading: () => const Center(child: CircularProgressIndicator()),
