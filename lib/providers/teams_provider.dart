@@ -45,6 +45,7 @@ class Teams extends _$Teams {
 
 @riverpod
 class Rosters extends _$Rosters {
+  @override
   Future<List<Roster>> build() async => TeamService().getRoster();
 
   Future<void> addPlayer(Player player, String teamName) async {

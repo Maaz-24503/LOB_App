@@ -104,6 +104,7 @@ class TeamsRepo {
     Map<String, dynamic> temp = player.toJson();
     List<dynamic> allPlayers = [];
     for (var iter in querySnapshot.docs.first['players']) {
+      // ignore: prefer_const_constructors
       if (!(DeepCollectionEquality().equals(iter, temp))) {
         allPlayers.add(iter);
       }

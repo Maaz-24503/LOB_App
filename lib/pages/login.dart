@@ -131,7 +131,7 @@ class LoginPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8, right: 26),
                   child:
-                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     const Text("Dont have an account?"),
                     InkWell(
                       onTap: () {
